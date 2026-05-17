@@ -1,0 +1,52 @@
+.rebus-container {
+  background: #fffef5;
+  border: 1px solid #e8dfa0;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.rebus-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.loading {
+  font-size: 16px;
+  color: #7a6a30;
+}
+
+.answer-box {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.answer-input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 80%;
+  font-size: 16px;
+}
+
+.answer-button {
+  padding: 10px 20px;
+  background: #7a6a30;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.answer-button:hover {
+  background: #5f5226;
+}
+
+.result {
+  margin-top: 10px;
+  font-weight: bold;
+}

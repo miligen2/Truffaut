@@ -1,0 +1,148 @@
+.card {
+  background: #fffef5;
+  border: 1px solid #e8dfa0;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+}
+
+.select-wrap {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.select-wrap select {
+  width: 100%;
+  appearance: none;
+  background: #fff;
+  border: 1.5px solid #d4c060;
+  border-radius: 50px;
+  padding: 12px 44px 12px 20px;
+  font-size: 14px;
+  color: #2c2000;
+  cursor: pointer;
+  outline: none;
+}
+
+.select-wrap select:focus {
+  border-color: #b8a000;
+}
+
+.select-wrap::after {
+  content: '▾';
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a08000;
+  pointer-events: none;
+}
+.action{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+}
+
+.btnclassement{
+    width: 60%;
+    background: #BEC6F7;
+    padding: 8px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: background 0.2s;
+}
+.btnclassement:hover{
+    background: #8591e5;
+}
+
+.btn {
+  width: 100%;
+  background: #2c2000;
+  color: #F7EFBE;
+  border: none;
+  border-radius: 50px;
+  padding: 13px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.btn:hover { background: #453200; }
+.btn:active { transform: scale(0.98); }
+.btn:disabled {
+  background: #c8bb80;
+  color: #a09060;
+  cursor: not-allowed;
+}
+
+/* Overlay (fond sombre) */
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Contenu du modal */
+.modal-content {
+  width: 90%;
+  max-width: 320px;
+  background: #fffef5;
+  border: 1px solid #e8dfa0;
+  border-radius: 18px;
+  padding: 25px 20px;
+  text-align: center;
+}
+
+/* Input date */
+.modal-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #d4c060;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Boutons du modal */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-actions .btn {
+  flex: 1;
+}
+
+/* Bouton annuler style léger */
+.btn-cancel {
+  background: #c8bb80;
+  color: #2c2000;
+}
+
+.classement-table {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+.classement-table th,
+.classement-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.classement-table th {
+  background: #f5f5f5;
+}
