@@ -1,4 +1,5 @@
 import { connectDB } from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 export async function GET(
   req: Request,
@@ -10,7 +11,7 @@ export async function GET(
     const { id  } = await params;
 
     const rebus = await db.collection("rebus").findOne({
-      _id: id, // ⚠️ string, pas ObjectId
+      _id: new ObjectId(id), // ⚠️ string, pas ObjectId
     });
 
     if (!rebus) {
