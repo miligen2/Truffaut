@@ -58,7 +58,11 @@ export default function Dashboard() {
 
     if (!userId) return;
 
-    fetch(`/api/rebus?userId=${userId}`)
+    fetch(`/api/rebus`,{
+        headers:{
+            userid: userId || "",
+        },
+    })
       .then((r) => {
         if (!r.ok) {
           throw new Error("Erreur API rebus");

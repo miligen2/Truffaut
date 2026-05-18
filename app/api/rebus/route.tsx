@@ -1,12 +1,11 @@
 import { connectDB } from "@/lib/mongodb";
 
-export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   try {
     const db = await connectDB();
 
-    const userId = new URL(req.url).searchParams.get("userId");
+    const userId = req.headers.get("userid");
 
     console.log("userID:", userId);
 
