@@ -4,7 +4,7 @@ import "./page.css"
 import { useRouter } from "next/navigation";
 
 type Prof = { _id: string, nom: string };
-type Rebus = {_id: string, image: string, reponse: string}
+type Rebus = {_id: string, image: string, resultats: {success: Boolean, time: Number} | null, reponse: string}
 
 export default function Dashboard() {
     const router = useRouter();
