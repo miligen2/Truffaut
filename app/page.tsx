@@ -25,6 +25,7 @@ export default function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const [profs, setProfs] = useState<Prof[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [classementOpen, setClassementOpen] = useState(false);
   const [classement, setClassement] = useState<
@@ -90,7 +91,7 @@ export default function Home() {
         if (!r.ok) {
           throw new Error("Erreur API profs");
         }
-
+      setLoading(false);
         return r.json();
       })
       .then((data) => {
@@ -128,14 +129,15 @@ export default function Home() {
               Sélectionner votre nom
             </option>
 
-            {profs.map((prof) => (
-              <option
-                key={prof._id}
-                value={prof._id}
-              >
+          {loading ? (
+            <option>Chargement...</option>
+          ) : (
+            profs.map((prof) => (
+              <option key={prof._id} value={prof._id}>
                 {prof.nom}
               </option>
-            ))}
+            ))
+          )}
           </select>
         </div>
 
