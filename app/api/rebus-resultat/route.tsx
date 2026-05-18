@@ -13,6 +13,7 @@ export async function POST(req: Request) {
       success: body.success,
       createdAt: new Date(),
     });
+    console.log("BODY RECEIVED:", body);
 
     console.log("Résultat enregistré:", result);
 

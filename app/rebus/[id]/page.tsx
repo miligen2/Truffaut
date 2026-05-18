@@ -65,7 +65,10 @@ export default function RebusPage() {
   const handleSubmit = async () => {
     if (!rebus || !startTime || isFinished) return;
 
-    const userId = typeof window !== "undefined" ? localStorage.getItem("userId") : null;
+    const userId =
+      typeof window !== "undefined"
+        ? localStorage.getItem("userId")
+        : null;
 
     const userAnswer = answer.trim().toLowerCase();
     const correctAnswer = rebus.reponse.trim().toLowerCase();
@@ -82,33 +85,27 @@ export default function RebusPage() {
 
     if (isSuccess) {
       setIsFinished(true);
-    }
 
-    try {
-      if (typeof window === "undefined") return;
+      // 🚀 ENVOI UNIQUEMENT SI BONNE RÉPONSE
+      try {
+        await fetch("/api/rebus-resultat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            rebusId: rebus._id,
+            time: timeSpent,
+            success: true,
+          }),
+        });
 
-      const userId = localStorage.getItem("userId");
+        router.push("/dashboard/" + userId);
 
-      const res = await fetch("/api/rebus-resultat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          rebusId: rebus._id,
-          time: timeSpent,
-          success: isSuccess,
-        }),
-      });
-    if (res.ok) {
-      router.push("/dashboard/" + userId);
-    } else {
-      console.error("Erreur API résultat");
-    }
-
-    } catch (error) {
-      console.error("Erreur enregistrement résultat:", error);
+      } catch (error) {
+        console.error("Erreur enregistrement résultat:", error);
+      }
     }
   };
 

@@ -109,10 +109,16 @@ export default function Dashboard() {
                 </div>
               )}
 
+
               <p>
                 {r._id.charAt(0).toUpperCase() +
                   r._id.slice(1)}
               </p>
+                {r.resultats?.time && (
+                <p>
+                  ⏱ {r.resultats.time.toFixed(2)}s
+                </p>
+              )}
             </div>
           ))}
         </div>
