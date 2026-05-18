@@ -1,5 +1,11 @@
 import { connectDB } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import { Document } from "mongodb";
+
+type Rebus = Document & {
+  _id: string;
+  image: string;
+  reponse: string;
+};
 
 export async function GET(
   req: Request,
@@ -10,9 +16,9 @@ export async function GET(
 
     const { id  } = await params;
 
-    const rebus = await db.collection("rebus").findOne({
-      _id: id  // ⚠️ string, pas ObjectId
-    });
+    const rebus = await db
+      .collection<Rebus>("rebus")
+      .findOne({ _id: id });
 
     if (!rebus) {
       return new Response("Rebus non trouvé", { status: 404 });
