@@ -103,9 +103,9 @@ export default function Home() {
   }, []);
 
   return (
-    <main className={styles.main}>
+    <main className="main">
       <div className={styles.card}>
-        <span className={styles.badge}>
+        <span className="badge">
           Collège Truffaut
         </span>
 

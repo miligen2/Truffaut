@@ -104,7 +104,7 @@ export default function RebusPage() {
   };
 
   return (
-    <main className={styles.main}>
+    <main className="main">
       {rebus ? (
         <div className={styles["rebus-container"]}>
           <img

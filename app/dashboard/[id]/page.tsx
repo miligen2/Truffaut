@@ -76,9 +76,9 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <main className={styles.main}>
+    <main className="main">
       <div className={styles.dashboard}>
-        <span className={styles.badge}>
+        <span className="badge">
           {prof
             ? `Bienvenue M / Mme ${prof.nom} !`
             : "Chargement..."}
