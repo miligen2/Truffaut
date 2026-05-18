@@ -1,61 +1,118 @@
-"use client"
-import { useEffect, useState } from "react"
-import "./page.css"
+"use client";
+
+import { useEffect, useState } from "react";
+import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 
-type Prof = { _id: string, nom: string };
-type Rebus = {_id: string, image: string, resultats: {success: Boolean, time: Number} | null, reponse: string}
+type Prof = {
+  _id: string;
+  nom: string;
+};
+
+type Rebus = {
+  _id: string;
+  image: string;
+  reponse: string;
+  resultats: {
+    success: boolean;
+    time: number;
+  } | null;
+};
 
 export default function Dashboard() {
-    const router = useRouter();
-    const [prof, setProf] = useState<Prof | null>(null);
-    const [rebus, setRebus] = useState<Rebus[]>([]);
+  const router = useRouter();
 
-    useEffect(() =>{
-        const userId = localStorage.getItem('userId');
-        fetch(`/api/profs/${userId}`)
-        .then((r)=> r.json())
-        .then((data => {
-            console.log("PROF DATA:", data);
-            setProf(data)
-        }))
-        .catch((e)=> {
-            console.error('FETCH ERROR:',e)
-        })
-    }, [])
+  const [prof, setProf] = useState<Prof | null>(null);
+  const [rebus, setRebus] = useState<Rebus[]>([]);
 
-    useEffect(() =>{
-        const userId = localStorage.getItem('userId');
-        fetch(`/api/rebus?userId=${userId}`)
-        .then((r) => r.json())
-        .then((data)=> {
-            console.log("REBUS DATA:" , data)
-            setRebus(Array.isArray(data) ? data : [])
-        }).catch((e)=>{
-            console.error('FETCH ERROR:', e)
-        })
-    }, [])
+  // FETCH PROF
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-    return (
-        <>
-            <main className="main">
-            <div className="dashboard">
-                <span className="badge">
-                {prof ? `Bienvenue M / Mme ${prof.nom} !` : "Chargement..."}
-                </span>
+    const userId = localStorage.getItem("userId");
 
-                <div className="grid">
-                {rebus.map((r) => (
-                    <div key={r._id} onClick={!r.resultats?.success ? () => router.push(`/rebus/${r._id}`): undefined} className="question-card">
-                        {!r.resultats ? (<div className="question-mark">?</div>) : (<div className="question-mark-done">✔</div>)}
+    if (!userId) return;
 
-                        <p>{r._id.charAt(0).toUpperCase() + r._id.slice(1)}</p>
-                    </div>
-                ))}
+    fetch(`/api/profs/${userId}`)
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error("Erreur API prof");
+        }
+
+        return r.json();
+      })
+      .then((data) => {
+        console.log("PROF DATA:", data);
+        setProf(data);
+      })
+      .catch((e) => {
+        console.error("FETCH ERROR:", e);
+      });
+  }, []);
+
+  // FETCH REBUS
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) return;
+
+    fetch(`/api/rebus?userId=${userId}`)
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error("Erreur API rebus");
+        }
+
+        return r.json();
+      })
+      .then((data) => {
+        console.log("REBUS DATA:", data);
+        setRebus(Array.isArray(data) ? data : []);
+      })
+      .catch((e) => {
+        console.error("FETCH ERROR:", e);
+      });
+  }, []);
+
+  return (
+    <main className={styles.main}>
+      <div className={styles.dashboard}>
+        <span className={styles.badge}>
+          {prof
+            ? `Bienvenue M / Mme ${prof.nom} !`
+            : "Chargement..."}
+        </span>
+
+        <div className={styles.grid}>
+          {rebus.map((r) => (
+            <div
+              key={r._id}
+              onClick={
+                !r.resultats?.success
+                  ? () => router.push(`/rebus/${r._id}`)
+                  : undefined
+              }
+              className={styles["question-card"]}
+            >
+              {r.resultats?.success ? (
+                <div className={styles["question-mark-done"]}>
+                  ✔
                 </div>
+              ) : (
+                <div className={styles["question-mark"]}>
+                  ?
+                </div>
+              )}
 
+              <p>
+                {r._id.charAt(0).toUpperCase() +
+                  r._id.slice(1)}
+              </p>
             </div>
-            </main>
-        </>
-    )
+          ))}
+        </div>
+      </div>
+    </main>
+  );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import "./page.css";
+import styles from "./page.module.css";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -19,21 +19,25 @@ export default function RebusPage() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id as string;
 
-  // 🔥 Fetch rebus + reset timer
+  // FETCH REBUS
   useEffect(() => {
     if (!id) return;
 
     fetch(`/api/rebus/${id}`)
       .then((r) => {
-        if (!r.ok) throw new Error("Erreur API");
+        if (!r.ok) {
+          throw new Error("Erreur API");
+        }
+
         return r.json();
       })
       .then((data) => {
         setRebus(data);
 
-        // ⏱ reset timer
+        // reset timer
         setStartTime(Date.now());
         setElapsedTime(0);
         setIsFinished(false);
@@ -41,11 +45,11 @@ export default function RebusPage() {
         setAnswer("");
       })
       .catch((e) => {
-        console.error(e);
+        console.error("Erreur fetch rebus:", e);
       });
   }, [id]);
 
-  // ⏱ TIMER LIVE
+  // TIMER
   useEffect(() => {
     if (!startTime || isFinished) return;
 
@@ -56,10 +60,9 @@ export default function RebusPage() {
     return () => clearInterval(interval);
   }, [startTime, isFinished]);
 
-  // ✅ SUBMIT
+  // SUBMIT
   const handleSubmit = async () => {
-    if (!rebus || !startTime) return;
-    if (isFinished) return;
+    if (!rebus || !startTime || isFinished) return;
 
     const userAnswer = answer.trim().toLowerCase();
     const correctAnswer = rebus.reponse.trim().toLowerCase();
@@ -75,17 +78,21 @@ export default function RebusPage() {
     );
 
     if (isSuccess) {
-      setIsFinished(true); // ⛔ stop timer
+      setIsFinished(true);
     }
 
     try {
+      if (typeof window === "undefined") return;
+
+      const userId = localStorage.getItem("userId");
+
       await fetch("/api/rebus-resultat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: localStorage.getItem("userId"),
+          userId,
           rebusId: rebus._id,
           time: timeSpent,
           success: isSuccess,
@@ -97,39 +104,48 @@ export default function RebusPage() {
   };
 
   return (
-    <main className="main">
+    <main className={styles.main}>
       {rebus ? (
-        <div className="rebus-container">
-          <img src={rebus.image} alt="Rebus" className="rebus-image" />
+        <div className={styles["rebus-container"]}>
+          <img
+            src={rebus.image}
+            alt="Rebus"
+            className={styles["rebus-image"]}
+          />
 
-          {/* ⏱ TIMER LIVE */}
-          <p className="timer">
+          <p className={styles.timer}>
             ⏱ {elapsedTime.toFixed(3)} s
           </p>
 
-          <div className="answer-box">
+          <div className={styles["answer-box"]}>
             <input
               type="text"
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
               placeholder="Ta réponse..."
-              className="answer-input"
+              className={styles["answer-input"]}
               disabled={isFinished}
             />
 
             <button
               onClick={handleSubmit}
-              className="answer-button"
+              className={styles["answer-button"]}
               disabled={isFinished}
             >
               Répondre
             </button>
 
-            {result && <p className="result">{result}</p>}
+            {result && (
+              <p className={styles.result}>
+                {result}
+              </p>
+            )}
           </div>
         </div>
       ) : (
-        <div className="loading">Chargement...</div>
+        <div className={styles.loading}>
+          Chargement...
+        </div>
       )}
     </main>
   );
