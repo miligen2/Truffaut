@@ -44,3 +44,54 @@
   color: #7a6a;
   margin-bottom: 6px;
 }
+/* =========================
+   TABLETTES (≤ 768px)
+========================= */
+@media (max-width: 768px) {
+  .dashboard {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .question-card {
+    padding: 16px 10px;
+  }
+
+  .question-mark,
+  .question-mark-done {
+    font-size: 24px;
+  }
+}
+
+/* =========================
+   MOBILES (≤ 480px)
+========================= */
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 0 8px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+
+  .question-card {
+    padding: 14px 10px;
+    border-radius: 16px;
+  }
+
+  .question-card:hover {
+    transform: none; /* évite effet hover bizarre sur mobile */
+  }
+
+  .question-mark,
+  .question-mark-done {
+    font-size: 22px;
+  }
+}

@@ -146,3 +146,70 @@
 .classement-table th {
   background: #f5f5f5;
 }
+
+/* =========================
+   TABLETTES (≤ 768px)
+========================= */
+@media (max-width: 768px) {
+  .card {
+    padding: 2rem 1.5rem;
+    max-width: 90%;
+    border-radius: 16px;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 12px 18px;
+  }
+
+  .btnclassement {
+    width: 80%;
+    font-size: 11px;
+  }
+
+  .modal-content {
+    max-width: 280px;
+    padding: 20px 16px;
+  }
+}
+
+/* =========================
+   MOBILES (≤ 480px)
+========================= */
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem 1rem;
+    border-radius: 14px;
+  }
+
+  .select-wrap select {
+    font-size: 13px;
+    padding: 10px 40px 10px 14px;
+  }
+
+  .action {
+    height: auto;
+    gap: 10px;
+  }
+
+  .btnclassement {
+    width: 100%;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 12px 16px;
+    border-radius: 40px;
+  }
+
+  .modal-content {
+    width: 92%;
+    padding: 18px 14px;
+  }
+
+  .classement-table th,
+  .classement-table td {
+    padding: 8px;
+    font-size: 13px;
+  }
+}

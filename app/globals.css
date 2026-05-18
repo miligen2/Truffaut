@@ -57,3 +57,67 @@ body {
   margin-bottom: 1.5rem;
   text-transform: uppercase;
 }
+
+/* =========================
+   BASE RESPONSIVE FIXES
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* =========================
+   TABLETTES (≤ 768px)
+========================= */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  p {
+    font-size: 13px;
+    margin-bottom: 1.5rem;
+  }
+
+  .main {
+    padding: 1.5rem;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 4px 12px;
+  }
+}
+
+/* =========================
+   MOBILES (≤ 480px)
+========================= */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  p {
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+
+  .main {
+    padding: 1rem;
+    align-items: flex-start;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    display: block;
+    text-align: center;
+    margin: 0 auto 1rem auto;
+  }
+}
