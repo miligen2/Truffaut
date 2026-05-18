@@ -1,11 +1,14 @@
 import { connectDB } from "@/lib/mongodb";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
   try {
     const db = await connectDB();
 
-    const userId =  new URL(req.url).searchParams.get("userId")
-    console.log("userID:" , userId)
+    const userId = new URL(req.url).searchParams.get("userId");
+
+    console.log("userID:", userId);
 
     if (!userId) {
       return Response.json(
@@ -14,7 +17,10 @@ export async function GET(req: Request) {
       );
     }
 
-    const rebus = await db.collection("rebus").find().toArray();
+    const rebus = await db
+      .collection("rebus")
+      .find()
+      .toArray();
 
     const resultats = await db
       .collection("rebus_resultats")
@@ -23,7 +29,9 @@ export async function GET(req: Request) {
 
     const rebusavecresultats = rebus.map((r) => {
       const res = resultats.find(
-        (res) => res.rebusId?.toString() === r._id.toString()
+        (res) =>
+          res.rebusId?.toString() ===
+          r._id.toString()
       );
 
       return {
@@ -37,10 +45,16 @@ export async function GET(req: Request) {
       };
     });
 
-    return Response.json(rebusavecresultats, { status: 200 });
-
+    return Response.json(
+      rebusavecresultats,
+      { status: 200 }
+    );
   } catch (error) {
     console.error("API ERROR :", error);
-    return new Response("Erreur serveur", { status: 500 });
+
+    return new Response(
+      "Erreur serveur",
+      { status: 500 }
+    );
   }
 }
