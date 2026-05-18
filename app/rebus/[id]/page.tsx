@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./page.module.css";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Rebus = {
@@ -11,6 +11,7 @@ type Rebus = {
 };
 
 export default function RebusPage() {
+  const router = useRouter();
   const [rebus, setRebus] = useState<Rebus | null>(null);
   const [answer, setAnswer] = useState("");
   const [result, setResult] = useState<string | null>(null);
@@ -64,6 +65,8 @@ export default function RebusPage() {
   const handleSubmit = async () => {
     if (!rebus || !startTime || isFinished) return;
 
+    const userId = typeof window !== "undefined" ? localStorage.getItem("userId") : null;
+
     const userAnswer = answer.trim().toLowerCase();
     const correctAnswer = rebus.reponse.trim().toLowerCase();
 
@@ -86,7 +89,7 @@ export default function RebusPage() {
 
       const userId = localStorage.getItem("userId");
 
-      await fetch("/api/rebus-resultat", {
+      const res = await fetch("/api/rebus-resultat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,6 +101,12 @@ export default function RebusPage() {
           success: isSuccess,
         }),
       });
+    if (res.ok) {
+      router.push("/dashboard/" + userId);
+    } else {
+      console.error("Erreur API résultat");
+    }
+
     } catch (error) {
       console.error("Erreur enregistrement résultat:", error);
     }
