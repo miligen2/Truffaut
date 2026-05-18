@@ -11,7 +11,7 @@ export async function GET(
     const { id  } = await params;
 
     const rebus = await db.collection("rebus").findOne({
-      _id: new ObjectId(id), // ⚠️ string, pas ObjectId
+      _id: id  // ⚠️ string, pas ObjectId
     });
 
     if (!rebus) {
