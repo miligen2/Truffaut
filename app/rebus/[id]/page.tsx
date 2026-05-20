@@ -127,6 +127,7 @@ export default function RebusPage() {
             <input
               type="text"
               value={answer}
+              autoFocus
               onChange={(e) => setAnswer(e.target.value)}
               placeholder="Ta réponse..."
               className={styles["answer-input"]}
