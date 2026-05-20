@@ -235,7 +235,7 @@ export default function Home() {
               <tr key={j._id}>
                 <td>{index + 1}</td>
                 <td>{j.user?.nom}</td>
-                <td>{j.totalTime}</td>
+                <td>{j.totalTime.toFixed(2)}s</td>
                 <td>{j.totalGames}</td>
               </tr>
             ))}
