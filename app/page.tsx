@@ -91,10 +91,7 @@ export default function Home() {
   useEffect(() => {
     fetch("/api/profs")
       .then((r) => {
-        if (!r.ok) {
-          throw new Error("Erreur API profs");
-        }
-      setLoading(false);
+        if (!r.ok) { throw new Error("Erreur API profs");}
         return r.json();
       })
       .then((data) => {
@@ -103,6 +100,9 @@ export default function Home() {
       })
       .catch((e) => {
         console.error("FETCH ERROR:", e);
+      })
+      .finally(() => {  
+        setLoading(false);
       });
   }, []);
 
