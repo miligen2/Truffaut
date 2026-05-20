@@ -128,6 +128,11 @@ export default function RebusPage() {
               type="text"
               value={answer}
               autoFocus
+              onKeyDown={(e)=>{
+                if (e.key === "Enter"){
+                  handleSubmit();
+                }
+              }}
               onChange={(e) => setAnswer(e.target.value)}
               placeholder="Ta réponse..."
               className={styles["answer-input"]}
