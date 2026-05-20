@@ -7,36 +7,39 @@ export async function GET() {
     // 1. récupérer users + résultats
     const users = await db.collection("users").find({}).toArray();
 
-    const results = await db
-      .collection("rebus_resultats")
-      .find({ success: true })
-      .toArray();
-
-    // 2. fusion + agrégation en JS
-    const classement = results.reduce((acc: any[], r: any) => {
-      let u = acc.find((x) => x._id === r.userId);
-
-      if (!u) {
-        u = {
-          _id: r.userId,
-          nom: users.find((user) => user.userId === r.userId)?.nom || null,
-          totalTime: 0,
-          count: 0,
-        };
-
-        acc.push(u);
+    const classement = await db.collection('rebus_resultats').aggregate([
+      {
+        $group : {
+          _id: "$userId",
+          totalTime:{ $sum : "$time"},
+          totalGames: { $sum: 1 }
+        }
+      },
+      {
+        $addFields: {
+          userIdObj : { $toObjectId: "$_id"}
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userIdObj",
+          foreignField: "_id",
+          as : "user"
+        } 
+      },
+      {
+        $unwind: "$user"
+      },
+      {
+        $sort: {
+          totalGames: -1 ,
+          totalTime: 1,
+        }
       }
-
-      u.totalTime += r.time;
-      u.count += 1;
-
-      return acc;
-    }, []);
-
-    // 3. tri (meilleur temps = meilleur score)
-    classement.sort((a, b) => a.totalTime - b.totalTime);
-
-    return Response.json(classement);
+  ]).toArray()
+  
+  return Response.json(classement)
 
   } catch (error) {
     console.error("CLASSEMENT ERROR:", error);

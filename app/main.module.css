@@ -95,8 +95,8 @@
 
 /* Contenu du modal */
 .modal-content {
-  width: 90%;
-  max-width: 320px;
+  width: 100%;
+  max-width: 500px;
   background: #fffef5;
   border: 1px solid #e8dfa0;
   border-radius: 18px;

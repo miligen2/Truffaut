@@ -12,8 +12,11 @@ type Prof = {
 
 type ClassementItem = {
   _id: string;
-  nom: string;
-  totalScore: number;
+  totalTime: number;
+  totalGames: number;
+  user: {
+    nom: string;
+  }
 };
 
 export default function Home() {
@@ -150,12 +153,12 @@ export default function Home() {
             Commencer le quizz
           </button>
 
-          {/* <button
+          <button
             className={styles.btnclassement}
             onClick={chargerClassement}
           >
             🏆 Voir le classement
-          </button> */}
+          </button>
         </div>
       </div>
 
@@ -223,6 +226,7 @@ export default function Home() {
               <th>Position</th>
               <th>Nom</th>
               <th>Score total</th>
+              <th>Parties jouées</th>
             </tr>
           </thead>
 
@@ -230,8 +234,9 @@ export default function Home() {
             {classement.map((j, index) => (
               <tr key={j._id}>
                 <td>{index + 1}</td>
-                <td>{j.nom}</td>
-                <td>{j.totalScore}</td>
+                <td>{j.user?.nom}</td>
+                <td>{j.totalTime}</td>
+                <td>{j.totalGames}</td>
               </tr>
             ))}
           </tbody>
